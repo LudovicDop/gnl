@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/10/31 17:30:31 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:48:12 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int	add_list(t_list **lst, char *content)
 		tmp[i] = *content;
 		if (*content == '\n')
 		{
+			tmp[i] = '\0';
+			str->content = tmp;
+			ft_lstadd_back(lst, str);
 			return (1);
 		}
 		content++;
@@ -53,7 +56,6 @@ int	add_list(t_list **lst, char *content)
 	}
 	tmp[i] = '\0';
 	str->content = tmp;
-	str->next = NULL;
 	ft_lstadd_back(lst, str);
 	return (0);
 }	

@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:48:33 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/10/31 15:15:59 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:41:56 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(void)
 	int fd;
 	
 	fd = open("tests/test1.txt", O_RDONLY);
+	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	return (0);	
 }
