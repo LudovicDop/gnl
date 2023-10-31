@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:22:51 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/10/30 16:33:02 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:38:57 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@
 #  define BUFFER_SIZE 2
 # endif
 
-size_t	ft_strlen(const char *s);
-int	ft_strchr(const char *s, int c);
-char	*get_next_line(int fd);
-void	*ft_calloc(size_t count, size_t size);
-void	ft_bzero(void *s, size_t n);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+typedef struct s_list
+{
+	void	*content;
+	struct s_list *next;
+} t_list;
+
+char    *get_next_line(int fd);
+int     add_list(t_list **lst, char *content);
 #endif

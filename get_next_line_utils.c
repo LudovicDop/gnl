@@ -6,96 +6,54 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/10/30 17:17:03 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:30:31 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ret;
-	size_t	total_size;
 
-	total_size = count * size;
-	if (count == 0 || size == 0)
-		return (ft_calloc(1, 1));
-	if ((count >= 2147483647 || size >= 2147483647))
-		return (NULL);
-	ret = (void *)malloc(total_size);
-	if (ret == NULL)
-		return (NULL);
-	ft_bzero(ret, total_size);
-	return ((void *)(ret));
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*new_node;
+	t_list	*current;
+
+	new_node = new;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	current = *lst;
+	while (current->next)
+		current = current->next;
+	current->next = new_node;
 }
 
-size_t	ft_strlen(const char *s)
+int	add_list(t_list **lst, char *content)
 {
-	size_t	i;
-
+	int	i;
+	char	*tmp;
+	t_list	*str;
+	
 	i = 0;
-	while (*s != '\0')
+	str = malloc(sizeof(t_list));
+	tmp = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if(str == NULL)
+		return (0);
+	while (*content)
 	{
-		s++;
+		tmp[i] = *content;
+		if (*content == '\n')
+		{
+			return (1);
+		}
+		content++;
 		i++;
 	}
-	return (i);
-}
-
-static int	calc(char const *s, unsigned int start, size_t len)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < len && s[start + i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char			*ret;
-	unsigned int	i;
-	size_t			lenght;
-
-	lenght = ft_strlen(s);
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (lenght < start || len == 0 || s[0] == '\0')
-		return (ft_calloc(1, 1));
-	if (len > (lenght + 1))
-		len = lenght;
-	lenght = calc(s, start, len);
-	ret = malloc(sizeof(char) * lenght + 1);
-	if (ret == NULL)
-		return (NULL);
-	while (i < len && s[start + i] != '\0')
-	{
-		ret[i] = s[start + i];
-		i++;
-	}
-	ret[i] = '\0';
-	return (ret);
-}
-
-int	ft_strchr(const char *s, int c)
-{
-	int				i;
-	unsigned char	*ret;
-
-	ret = (unsigned char *)s;
-	i = 0;
-	while (ret[i] != '\0' && ret[i] != (char)c)
-	{
-		i++;
-	}
-	if (ret[i] == (char)c)
-	{
-		return (i + 1);
-	}
+	tmp[i] = '\0';
+	str->content = tmp;
+	str->next = NULL;
+	ft_lstadd_back(lst, str);
 	return (0);
-}
-
+}	
