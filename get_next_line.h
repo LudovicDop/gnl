@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:22:51 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/10/31 15:38:57 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:35:19 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 42
 # endif
 
 typedef struct s_list
 {
 	void	*content;
+	void	*tmp;
 	struct s_list *next;
 } t_list;
 
