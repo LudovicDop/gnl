@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:22:51 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/01 11:35:19 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:52:23 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ typedef struct s_list
 
 char    *get_next_line(int fd);
 int     add_list(t_list **lst, char *content);
+void    ft_lstclear(t_list **lst, void (*del)(void*));
 #endif

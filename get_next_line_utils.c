@@ -6,12 +6,33 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/01 15:37:32 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/01 17:43:20 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+void	ft_lstclear(t_list **lst, void (*del)(void*))
+{
+	t_list	*buffer;
+	t_list	*next;
+
+	if (!del)
+	{	
+		return ;
+	}
+	buffer = *lst;
+	next = buffer;
+	while (buffer)
+	{
+		next = buffer->next;
+		del(buffer->content);
+		del(buffer->tmp);
+		free(buffer);
+		buffer = next;
+	}
+	*lst = NULL;
+}
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -32,9 +53,10 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 void	save_after_n(t_list **lst, char *content, char *tmp, t_list *str)
 {
-	if (*content == '\n')
+	while (*tmp)
 	{
-		str->content = tmp;
+					
+		printf("tmp = %s",tmp);
 		ft_lstadd_back(lst, str);
 	}
 	content++;
@@ -44,6 +66,7 @@ void	save_after_n(t_list **lst, char *content, char *tmp, t_list *str)
 		(*lst)->tmp = content;
 	}
 }
+
 int	add_list(t_list **lst, char *content)
 {
 	int	i;
@@ -53,7 +76,7 @@ int	add_list(t_list **lst, char *content)
 	i = 0;
 	str = malloc(sizeof(t_list));
 	tmp = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if(str == NULL)
+	if(str == NULL || tmp == NULL)
 		return (0);
 	while (*content)
 	{
@@ -69,6 +92,7 @@ int	add_list(t_list **lst, char *content)
 	}
 	tmp[i] = '\0';
 	str->content = tmp;
-	ft_lstadd_back(lst, str);
+	//free(tmp);
+	free(str);
 	return (0);
 }	
