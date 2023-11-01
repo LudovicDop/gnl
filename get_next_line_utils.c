@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/01 12:29:05 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:37:32 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,17 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 void	save_after_n(t_list **lst, char *content, char *tmp, t_list *str)
 {
-	while (*tmp != '\n')
+	if (*content == '\n')
 	{
-		printf("tmp = %c",*tmp);
-		tmp++;
-	}
-	printf("tmp = %c",*tmp);
-	if (*content == '\n' && *tmp == '\n')
-	{
-		*tmp = *content;
 		str->content = tmp;
 		ft_lstadd_back(lst, str);
-	}	
+	}
+	content++;
+	if (*content)
+	{
+		printf("alpha\n");
+		(*lst)->tmp = content;
+	}
 }
 int	add_list(t_list **lst, char *content)
 {
