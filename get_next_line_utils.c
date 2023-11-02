@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/02 07:10:36 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:39:04 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	save_after_n(t_list **lst, char *content, char *tmp, t_list *str)
 	if (*content == '\n')
 	{
 		str->content = tmp;
-		printf("C\n");
 		ft_lstadd_back(lst, str);
 	}
 	content++;
-	printf("here=%s\n",content);
 	if (*content)
 	{
+		printf("LA %s\n",content);
+		(*lst)->tmp = content;
 		// Objectif reussir a changer le content avec seulement le contenu apres \n
 	}
 }
@@ -85,13 +85,11 @@ int	add_list(t_list **lst, char *content)
 		if (*content == '\n')
 		{
 			save_after_n(lst, content, tmp, str);
-			printf("A\n");	
 			return (1);
 		}
 		content++;
 		i++;
 	}
-	printf("B\n");
 	tmp[i] = '\0';
 	str->content = tmp;
 	ft_lstadd_back(lst, str);
