@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/02 15:48:08 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:34:03 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,41 @@ void del(void *test)
 {
 	free(test);
 }
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (*s != '\0')
+	{
+		s++;
+		i++;
+	}
+	return (i);
+}
+
+void	join(t_list **lst)
+{
+	int	i;
+	
+	i = 0;
+	while (*lst)
+	{
+		i = ft_strlen((char *)(*lst)->content) + i;
+		printf("%s",(char *)(*lst)->content);
+		(*lst) = (*lst)->next;
+	}
+	printf("\n%d\n",i);
+}
 char	*get_next_line(int fd)
 {
 	static t_list	*lst;
 	static char		*next;
 	int		read_val;
 	static int		add_list_val;
-	
+	char	*ret;
+
 	read_val = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next, 0) < 0)
 		return (NULL);
@@ -53,11 +81,7 @@ char	*get_next_line(int fd)
 	next = lst->tmp;
 	//printf("hereXee = %s",next);
 	}
-	while (lst)
-	{
-		printf("%s",(char *)lst->content);
-		lst = lst->next;
-	}
+	join(&lst);
 	ft_lstclear(&lst, del);
 	//free(next);
 	return(NULL);
