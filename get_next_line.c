@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/02 15:33:19 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:48:08 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ char	*get_next_line(int fd)
 	{
 		//printf("AXA %s",next);
 		//printf("oui\n");
-		add_list_val = add_list(&lst, next);
+		if (add_list_val == 1)
+			add_list_val = add_list(&lst, next);
 		while (read_val && add_list_val != 1)
 		{
-			printf("okkk");
-			add_list_val = add_list(&lst, next);
+			//printf("okkk");
 			read_val = read(fd, next, BUFFER_SIZE);
+			add_list_val = add_list(&lst, next);
 		}
 		next = lst->tmp;
 	}
