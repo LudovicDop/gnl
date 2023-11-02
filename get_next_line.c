@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/02 16:34:03 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:22:57 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,34 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	join(t_list **lst)
+char	*join(t_list **lst)
 {
 	int	i;
-	
+	int 	j;
+	char	*ret;
+	char 	*first;
 	i = 0;
+	j = 0;
+	first = (char *)(*lst);
 	while (*lst)
 	{
 		i = ft_strlen((char *)(*lst)->content) + i;
-		printf("%s",(char *)(*lst)->content);
 		(*lst) = (*lst)->next;
 	}
-	printf("\n%d\n",i);
+	*lst = (t_list *)first;
+	ret = malloc(sizeof(char) * i);
+	while (*lst)
+	{
+		i = 0;
+		if((*lst)->content)
+		{
+			ret[j] = ((char *)(*lst)->content)[i];
+			j++;
+		}
+		*lst = (*lst)->next;
+	}
+	return (ret);
+	
 }
 char	*get_next_line(int fd)
 {
@@ -56,13 +72,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (next)
 	{
-		//printf("AXA %s",next);
-		//printf("oui\n");
 		if (add_list_val == 1)
 			add_list_val = add_list(&lst, next);
 		while (read_val && add_list_val != 1)
 		{
-			//printf("okkk");
 			read_val = read(fd, next, BUFFER_SIZE);
 			add_list_val = add_list(&lst, next);
 		}
@@ -77,12 +90,10 @@ char	*get_next_line(int fd)
 		read_val = read(fd, next, BUFFER_SIZE);
 		add_list_val = add_list(&lst, next);
 	}
-	//printf("hereee = %s",(char *)lst->tmp);
 	next = lst->tmp;
-	//printf("hereXee = %s",next);
 	}
-	join(&lst);
+	ret = join(&lst);
 	ft_lstclear(&lst, del);
 	//free(next);
-	return(NULL);
+	return(ret);
 }
