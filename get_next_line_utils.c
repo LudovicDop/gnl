@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/01 17:43:20 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/02 07:10:36 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 void	save_after_n(t_list **lst, char *content, char *tmp, t_list *str)
 {
-	while (*tmp)
+	if (*content == '\n')
 	{
-					
-		printf("tmp = %s",tmp);
+		str->content = tmp;
+		printf("C\n");
 		ft_lstadd_back(lst, str);
 	}
 	content++;
+	printf("here=%s\n",content);
 	if (*content)
 	{
-		printf("alpha\n");
-		(*lst)->tmp = content;
+		// Objectif reussir a changer le content avec seulement le contenu apres \n
 	}
 }
 
@@ -84,15 +84,18 @@ int	add_list(t_list **lst, char *content)
 		printf("tmp[%d] = %c\n",i,tmp[i]);
 		if (*content == '\n')
 		{
-			save_after_n(lst, content, tmp, str);		
+			save_after_n(lst, content, tmp, str);
+			printf("A\n");	
 			return (1);
 		}
 		content++;
 		i++;
 	}
+	printf("B\n");
 	tmp[i] = '\0';
 	str->content = tmp;
+	ft_lstadd_back(lst, str);
 	//free(tmp);
-	free(str);
+	//free(str);
 	return (0);
 }	
