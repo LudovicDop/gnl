@@ -1,7 +1,3 @@
 Hello World!
 42
 TEST
-
-
-test
-
