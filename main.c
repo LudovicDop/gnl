@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:48:33 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/02 17:24:31 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/03 11:47:58 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,10 @@ int	main(void)
 	printf("%s",get_next_line(fd));
 	printf("%s",get_next_line(fd));
 	printf("%s",get_next_line(fd));
+
+//	get_next_line(fd);
+//	get_next_line(fd);
+//	get_next_line(fd);
+//	get_next_line(fd);
 	return (0);	
 }

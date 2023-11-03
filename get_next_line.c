@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/02 17:22:57 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/03 11:51:16 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*join(t_list **lst)
 {
 	int	i;
 	int 	j;
+	int	k;
 	char	*ret;
 	char 	*first;
 	i = 0;
@@ -46,13 +47,20 @@ char	*join(t_list **lst)
 	}
 	*lst = (t_list *)first;
 	ret = malloc(sizeof(char) * i);
-	while (*lst)
+	//printf("%d\n",i);
+	if (i == 0)
 	{
-		i = 0;
-		if((*lst)->content)
+		return (NULL);
+	}
+	while (*lst)
+	{	
+		k = 0;
+		while (k < i)
 		{
-			ret[j] = ((char *)(*lst)->content)[i];
+			//printf("ret[%d] = %c\n",i, ((char *)(*lst)->content)[k]);
+			ret[j] = ((char *)(*lst)->content)[k];
 			j++;
+			k++;
 		}
 		*lst = (*lst)->next;
 	}
@@ -68,7 +76,7 @@ char	*get_next_line(int fd)
 	char	*ret;
 
 	read_val = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next, 0) <= 0)
 		return (NULL);
 	if (next)
 	{
