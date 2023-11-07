@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:48:33 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/03 11:47:58 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:20:24 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ int	main(void)
 {
 	int fd;
 	
-	fd = open("tests/test1.txt", O_RDONLY);
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-
-//	get_next_line(fd);
+	fd = open("tests/test2.txt", O_RDONLY);
+	
+	char *test = get_next_line(fd);
+	while (test)	
+	{
+		printf("%s",test);
+		test = get_next_line(fd);
+	}
+	//get_next_line(fd);
 //	get_next_line(fd);
 //	get_next_line(fd);
 //	get_next_line(fd);

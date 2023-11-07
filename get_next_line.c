@@ -6,102 +6,86 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/03 11:51:16 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:25:11 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void del(void *test)
+char	*get_line(char *buffer)
 {
-	free(test);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (*s != '\0')
-	{
-		s++;
-		i++;
-	}
-	return (i);
-}
-
-char	*join(t_list **lst)
-{
-	int	i;
-	int 	j;
-	int	k;
+	int		i;
+	int		j;
+	int		k;
 	char	*ret;
-	char 	*first;
-	i = 0;
+
+	ret = buffer;
+	k = 0;
 	j = 0;
-	first = (char *)(*lst);
-	while (*lst)
-	{
-		i = ft_strlen((char *)(*lst)->content) + i;
-		(*lst) = (*lst)->next;
-	}
-	*lst = (t_list *)first;
-	ret = malloc(sizeof(char) * i);
-	//printf("%d\n",i);
-	if (i == 0)
-	{
+	i = 0;
+	if (!buffer || *buffer == '\0')
 		return (NULL);
-	}
-	while (*lst)
-	{	
-		k = 0;
-		while (k < i)
-		{
-			//printf("ret[%d] = %c\n",i, ((char *)(*lst)->content)[k]);
-			ret[j] = ((char *)(*lst)->content)[k];
-			j++;
-			k++;
-		}
-		*lst = (*lst)->next;
+	while (buffer[i] != '\n' && buffer[i])
+		i++;
+	if (buffer[i] == '\n')
+	{
+		i++;
+		ret = ft_calloc(i + 1, sizeof(char));
+		if (!ret)
+			return (NULL);
+		while (j < i)
+			ret[j++] = buffer[k++];
+		ret[j] = '\0';
 	}
 	return (ret);
-	
 }
+
+char	*concat_prev(char *stash, char	*ret)
+{
+	ret = ft_strjoin(ret, stash);
+	return (ret);
+}
+
 char	*get_next_line(int fd)
 {
-	static t_list	*lst;
-	static char		*next;
-	int		read_val;
-	static int		add_list_val;
-	char	*ret;
+	char		*buffer;
+	char		*ret;
+	int			read_val;
+	static char	*stash;
 
-	read_val = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next, 0) <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	if (next)
+	ret = ft_calloc(1, 1);
+	if (!ret)
+		return (NULL);
+	if (stash)
 	{
-		if (add_list_val == 1)
-			add_list_val = add_list(&lst, next);
-		while (read_val && add_list_val != 1)
-		{
-			read_val = read(fd, next, BUFFER_SIZE);
-			add_list_val = add_list(&lst, next);
-		}
-		next = lst->tmp;
+		ret = concat_prev(stash, ret);
 	}
 	else
 	{
-	add_list_val = 0;
-	next = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	while (read_val && add_list_val != 1)
+		stash = ft_calloc(1,1);
+		if (!stash)
+			return (NULL);
+	}
+	//printf("Value ret = %s\n",ret);
+	read_val = 1;
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (NULL);
+	while (read_val && ft_strchr(buffer, '\n') == 0)
 	{
-		read_val = read(fd, next, BUFFER_SIZE);
-		add_list_val = add_list(&lst, next);
+		if (ft_strchr(stash, '\n') == 0)
+		{	
+			read_val = read(fd, buffer, BUFFER_SIZE);
+			stash = ft_strchr(buffer, '\n');
+		}
+		else
+		{
+			read_val = 0;
+			stash = ft_strchr(stash, '\n');
+		}
+		ret = ft_strjoin(ret, buffer);
 	}
-	next = lst->tmp;
-	}
-	ret = join(&lst);
-	ft_lstclear(&lst, del);
-	//free(next);
-	return(ret);
+	return (get_line(ret));
 }
