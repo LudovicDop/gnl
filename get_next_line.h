@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:22:51 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/07 13:36:59 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:51:20 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
-void    ft_bzero(void *s, size_t n);
-void    *ft_calloc(size_t count, size_t size);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
 #endif

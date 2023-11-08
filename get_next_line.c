@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/07 21:25:11 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/08 16:22:08 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,35 @@ char	*concat_prev(char *stash, char	*ret)
 	return (ret);
 }
 
+char	*next(char **stash, int fd, char *ret)
+{
+	int		read_val;
+	char	*buffer;
+
+	read_val = 1;
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (NULL);
+	while (read_val && ft_strchr(buffer, '\n') == 0)
+	{
+		if (ft_strchr(*stash, '\n') == 0)
+		{
+			read_val = read(fd, buffer, BUFFER_SIZE);
+			*stash = ft_strchr(buffer, '\n');
+		}
+		else
+		{
+			read_val = 0;
+			*stash = ft_strchr(*stash, '\n');
+		}
+		ret = ft_strjoin(ret, buffer);
+	}
+	return (ret);
+}
+
 char	*get_next_line(int fd)
 {
-	char		*buffer;
 	char		*ret;
-	int			read_val;
 	static char	*stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
@@ -64,28 +88,11 @@ char	*get_next_line(int fd)
 	}
 	else
 	{
-		stash = ft_calloc(1,1);
+		stash = ft_calloc(1, 1);
 		if (!stash)
 			return (NULL);
 	}
-	//printf("Value ret = %s\n",ret);
-	read_val = 1;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buffer)
-		return (NULL);
-	while (read_val && ft_strchr(buffer, '\n') == 0)
-	{
-		if (ft_strchr(stash, '\n') == 0)
-		{	
-			read_val = read(fd, buffer, BUFFER_SIZE);
-			stash = ft_strchr(buffer, '\n');
-		}
-		else
-		{
-			read_val = 0;
-			stash = ft_strchr(stash, '\n');
-		}
-		ret = ft_strjoin(ret, buffer);
-	}
-	return (get_line(ret));
+	ret = next(&stash, fd, ret);
+	ret = get_line(ret);
+	return (ret);
 }
