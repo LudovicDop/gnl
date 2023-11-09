@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/09 21:19:21 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:24:00 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*start_read(int fd)
 	char	*buffer;
 	char	*new_line;
 	int		read_val;
-	
+
 	read_val = 1;
 	new_line = NULL;
 	buffer = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
@@ -29,16 +29,16 @@ char	*start_read(int fd)
 		buffer[read_val] = '\0';
 		new_line = ft_strjoin(new_line, buffer);
 	}
-	return(free(buffer),buffer = NULL,new_line);
+	return (free(buffer), buffer = NULL, new_line);
 }
 
 char	*save_for_stash(char **buffer2, char **stash)
 {
-	int	j;
-	char	*buffer;	
+	int		j;
+	char	*buffer;
+
 	j = 0;
 	buffer = *buffer2;
-	
 	buffer = ft_strchr(buffer, '\n');
 	if (!(buffer) || ft_strlen(buffer) < 1)
 		return (NULL);
@@ -49,7 +49,7 @@ char	*save_for_stash(char **buffer2, char **stash)
 	j++;
 	*stash = ft_calloc(sizeof(char), j);
 	if (!stash)
-		return (free(buffer2),NULL);
+		return (free(buffer2), NULL);
 	j = 0;
 	while ((buffer)[j] != '\0')
 	{
@@ -65,10 +65,10 @@ char	*save_for_next(char **buffer, char **stash)
 	int		i;
 	int		j;
 	char	*ret;
-	
+
 	i = 0;
 	j = 0;
-	if(ft_strlen(*buffer) == 0)
+	if (ft_strlen(*buffer) == 0)
 		return (NULL);
 	while ((*buffer)[i] != '\n' && (*buffer)[i] != '\0')
 		i++;
@@ -101,7 +101,7 @@ char	*get_next_line(int fd)
 	tmp = start_read(fd);
 	if (stash)
 	{
-		tmp = ft_strjoin(stash, tmp);	
+		tmp = ft_strjoin(stash, tmp);
 	}
 	ret = save_for_next(&tmp, &stash);
 	free(tmp);
