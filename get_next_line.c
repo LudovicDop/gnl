@@ -6,93 +6,104 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/08 16:22:08 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:19:21 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line(char *buffer)
+char	*start_read(int fd)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	*ret;
-
-	ret = buffer;
-	k = 0;
-	j = 0;
-	i = 0;
-	if (!buffer || *buffer == '\0')
-		return (NULL);
-	while (buffer[i] != '\n' && buffer[i])
-		i++;
-	if (buffer[i] == '\n')
-	{
-		i++;
-		ret = ft_calloc(i + 1, sizeof(char));
-		if (!ret)
-			return (NULL);
-		while (j < i)
-			ret[j++] = buffer[k++];
-		ret[j] = '\0';
-	}
-	return (ret);
-}
-
-char	*concat_prev(char *stash, char	*ret)
-{
-	ret = ft_strjoin(ret, stash);
-	return (ret);
-}
-
-char	*next(char **stash, int fd, char *ret)
-{
-	int		read_val;
 	char	*buffer;
-
+	char	*new_line;
+	int		read_val;
+	
 	read_val = 1;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	new_line = NULL;
+	buffer = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	while (read_val && ft_strchr(buffer, '\n') == 0)
 	{
-		if (ft_strchr(*stash, '\n') == 0)
-		{
-			read_val = read(fd, buffer, BUFFER_SIZE);
-			*stash = ft_strchr(buffer, '\n');
-		}
-		else
-		{
-			read_val = 0;
-			*stash = ft_strchr(*stash, '\n');
-		}
-		ret = ft_strjoin(ret, buffer);
+		read_val = read(fd, buffer, BUFFER_SIZE);
+		buffer[read_val] = '\0';
+		new_line = ft_strjoin(new_line, buffer);
 	}
+	return(free(buffer),buffer = NULL,new_line);
+}
+
+char	*save_for_stash(char **buffer2, char **stash)
+{
+	int	j;
+	char	*buffer;	
+	j = 0;
+	buffer = *buffer2;
+	
+	buffer = ft_strchr(buffer, '\n');
+	if (!(buffer) || ft_strlen(buffer) < 1)
+		return (NULL);
+	while ((buffer)[j] != '\0')
+	{
+		j++;
+	}
+	j++;
+	*stash = ft_calloc(sizeof(char), j);
+	if (!stash)
+		return (free(buffer2),NULL);
+	j = 0;
+	while ((buffer)[j] != '\0')
+	{
+		(*stash)[j] = (buffer)[j];
+		j++;
+	}
+	(*stash)[j] = '\0';
+	return (NULL);
+}
+
+char	*save_for_next(char **buffer, char **stash)
+{
+	int		i;
+	int		j;
+	char	*ret;
+	
+	i = 0;
+	j = 0;
+	if(ft_strlen(*buffer) == 0)
+		return (NULL);
+	while ((*buffer)[i] != '\n' && (*buffer)[i] != '\0')
+		i++;
+	if ((*buffer)[i] == '\n')
+		i = i + 2;
+	else
+		i++;
+	ret = ft_calloc(sizeof(char), i);
+	if (!ret)
+		return (free(*buffer), *buffer = NULL, NULL);
+	while (j < i - 1)
+	{
+		ret[j] = (*buffer)[j];
+		j++;
+	}
+	ret[j] = '\0';
+	save_for_stash(buffer, stash);
 	return (ret);
 }
 
 char	*get_next_line(int fd)
 {
+	char		*tmp;
 	char		*ret;
 	static char	*stash;
 
+	ret = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	ret = ft_calloc(1, 1);
-	if (!ret)
-		return (NULL);
+	tmp = start_read(fd);
 	if (stash)
 	{
-		ret = concat_prev(stash, ret);
+		tmp = ft_strjoin(stash, tmp);	
 	}
-	else
-	{
-		stash = ft_calloc(1, 1);
-		if (!stash)
-			return (NULL);
-	}
-	ret = next(&stash, fd, ret);
-	ret = get_line(ret);
+	ret = save_for_next(&tmp, &stash);
+	free(tmp);
 	return (ret);
 }

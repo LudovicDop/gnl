@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:48:33 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/08 16:19:59 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:18:42 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@ int	main(void)
 	int fd;
 	
 	fd = open("tests/test1.txt", O_RDONLY);
-	
-	char *test = get_next_line(fd);
-	while (test)	
-	{
-		printf("%s",test);
-		test = get_next_line(fd);
-	}
+	printf("%s", get_next_line(fd));
+	printf("ici : %s", get_next_line(fd));
+	printf("ici : %s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
 }

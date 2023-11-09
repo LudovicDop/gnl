@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/07 21:15:03 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:30:09 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ret;
 	size_t	string_size;
@@ -72,20 +72,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	j = 0;
 	i = 0;
+	if (!s1)
+		s1 = ft_calloc(1, 1);
+	if (!s1 || !s2)
+		return (NULL);
 	string_size = ft_strlen(s1) + ft_strlen(s2);
 	ret = malloc(sizeof(char) * (string_size + 1));
 	if (ret == NULL)
-		return (NULL);
+		return (free(s1), free(ret), NULL);
 	while (s1[j] != '\0')
-	{
 		ret[i++] = s1[j++];
-	}
 	j = 0;
 	while (s2[j] != '\0')
-	{
 		ret[i++] = s2[j++];
-	}
 	ret[i] = '\0';
+	free(s1);
+	s1 = NULL;
 	return (ret);
 }
 
