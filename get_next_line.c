@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/09 21:24:00 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/10 15:26:32 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ char	*start_read(int fd)
 		return (NULL);
 	while (read_val && ft_strchr(buffer, '\n') == 0)
 	{
+		//printf("ok\n");
 		read_val = read(fd, buffer, BUFFER_SIZE);
 		buffer[read_val] = '\0';
 		new_line = ft_strjoin(new_line, buffer);
 	}
+	//printf("%s", new_line);
 	return (free(buffer), buffer = NULL, new_line);
 }
 
@@ -48,6 +50,7 @@ char	*save_for_stash(char **buffer2, char **stash)
 	}
 	j++;
 	*stash = ft_calloc(sizeof(char), j);
+	//printf("j = %d\n",j);
 	if (!stash)
 		return (free(buffer2), NULL);
 	j = 0;
@@ -77,6 +80,7 @@ char	*save_for_next(char **buffer, char **stash)
 	else
 		i++;
 	ret = ft_calloc(sizeof(char), i);
+	//printf("i = %d\n",i);
 	if (!ret)
 		return (free(*buffer), *buffer = NULL, NULL);
 	while (j < i - 1)
@@ -101,9 +105,12 @@ char	*get_next_line(int fd)
 	tmp = start_read(fd);
 	if (stash)
 	{
-		tmp = ft_strjoin(stash, tmp);
+		tmp = ft_strjoin(tmp, stash);
+		free(stash);
+		stash = NULL;
 	}
 	ret = save_for_next(&tmp, &stash);
 	free(tmp);
+	tmp = NULL;
 	return (ret);
 }
