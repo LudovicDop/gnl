@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/10 14:30:12 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/11 16:04:48 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,41 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char **s1_, char **s2_)
 {
 	char	*ret;
 	size_t	string_size;
 	int		i;
 	int		j;
-
+	char	*s1;	
+	char	*s2;
+	
 	j = 0;
 	i = 0;
-	if (!s1)
-		s1 = ft_calloc(1, 1);
+	if (!*s1_)
+	{
+	//	printf("davai\n");
+		*s1_ = ft_calloc(1, 1);
+	}
+	s1 = *s1_;
+	s2 = *s2_;
 	if (!s1 || !s2)
 		return (NULL);
 	string_size = ft_strlen(s1) + ft_strlen(s2);
 	ret = malloc(sizeof(char) * (string_size + 1));
 	if (ret == NULL)
-		return (free(s1), free(ret), NULL);
+		return (free(*s1_),*s1_ = NULL, free(ret), ret = NULL,NULL);
 	while (s1[j] != '\0')
 		ret[i++] = s1[j++];
 	j = 0;
 	while (s2[j] != '\0')
 		ret[i++] = s2[j++];
 	ret[i] = '\0';
-	free(s1);
-	s1 = NULL;
+	//printf("RET = %sEND",ret);
+	free(*s2_);
+	*s2_ = NULL;
+	free(*s1_);
+	*s1_ = NULL;
 	return (ret);
 }
 
@@ -96,9 +106,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (*s != '\0')
+	while (s[i] != '\0')
 	{
-		s++;
 		i++;
 	}
 	return (i);
