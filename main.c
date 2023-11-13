@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:48:33 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/10 19:30:56 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:02:42 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	main(void)
 {
 	int fd;
 	
-	fd = open("tests/test1.txt", O_RDONLY);
+	fd = open("tests/variable_nls.txt", O_RDONLY);
 	char *test = get_next_line(fd);
 	while (test)
 	{
-		printf("ARrr %s",test);
+		printf("==> %s",test);
 		test = get_next_line(fd);
 	}
 //	printf("=> %s",get_next_line(fd));

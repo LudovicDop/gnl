@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/11 16:35:01 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:55:07 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
-
+	unsigned char	*ptr;
+	
+	ptr = s;
 	i = 0;
 	while (i < n)
 	{
-		*(char *)s = 0;
-		s++;
+		ptr[i] = 0;
 		i++;
 	}
 }
@@ -32,7 +33,11 @@ void	*ft_calloc(size_t count, size_t size)
 
 	total_size = count * size;
 	if (count == 0 || size == 0)
-		return (ft_calloc(1, 1));
+	{
+		ret = malloc(0);
+		if (!ret)
+			return (NULL);
+	}
 	if ((count >= 2147483647 || size >= 2147483647))
 		return (NULL);
 	ret = (void *)malloc(total_size);
@@ -74,12 +79,12 @@ char	*ft_strjoin(char **s1_, char **s2_)
 	j = 0;
 	i = 0;
 	if (!*s1_)
-		*s1_ = ft_calloc(1, 1);
+		*s1_ = ft_calloc(1, sizeof(char));
 	s1 = *s1_;
 	s2 = *s2_;
 	if (!s1 || !s2)
 		return (NULL);
-	ret = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	ret = ft_calloc((ft_strlen(s1) + ft_strlen(s2) + 1), sizeof(char));
 	if (ret == NULL)
 		return (free(*s1_), *s1_ = NULL, free(ret), ret = NULL, NULL);
 	while (s1[j] != '\0')
