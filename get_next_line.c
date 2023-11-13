@@ -6,11 +6,19 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/13 14:16:55 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:26:18 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*start_read2(char **new_line, char **buffer)
+{
+	new_line = ft_strjoin(new_line, buffer);
+	*buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!*buffer)
+		return (NULL);
+}
 
 char	*start_read(int fd)
 {
@@ -31,12 +39,7 @@ char	*start_read(int fd)
 		tmp = ft_strchr(buffer, '\n');
 		buffer[read_val] = '\0';
 		if (read_val)
-		{
-			new_line = ft_strjoin(&new_line, &buffer);
-			buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-			if (!buffer)
-				return (free(buffer), buffer = NULL, NULL);
-		}
+			start_read2(&new_line, &buffer);
 	}
 	if (!new_line)
 		new_line = ft_calloc(1, 1);
@@ -102,7 +105,7 @@ char	*get_next_line(int fd)
 	char		*tmp;
 	char		*ret;
 	static char	*stash;
-	
+
 	ret = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
