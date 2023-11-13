@@ -6,18 +6,18 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/13 14:26:18 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:37:00 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*start_read2(char **new_line, char **buffer)
+void	start_read2(char **new_line, char **buffer)
 {
-	new_line = ft_strjoin(new_line, buffer);
+	*new_line = ft_strjoin(new_line, buffer);
 	*buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!*buffer)
-		return (NULL);
+		return ;
 }
 
 char	*start_read(int fd)
