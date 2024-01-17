@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:56:06 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/13 14:26:59 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:11:35 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_strchr(const char *s, int c)
 
 	ret = (unsigned char *)s;
 	i = 0;
-	if (!s)
+	if (!s || ft_strlen(s) == 0)
 		return (NULL);
 	while (ret[i] != '\0' && ret[i] != (char)c)
 	{

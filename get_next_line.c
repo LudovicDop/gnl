@@ -6,7 +6,7 @@
 /*   By: ldoppler <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:40:38 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/11/13 14:37:00 by ldoppler         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:29:26 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ char	*start_read(int fd)
 	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buffer)
 		return (NULL);
-	while (tmp == 0 && read_val && tmp == 0)
+	while (tmp == 0 && read_val)
 	{
 		read_val = read(fd, buffer, BUFFER_SIZE);
 		tmp = ft_strchr(buffer, '\n');
-		buffer[read_val] = '\0';
 		if (read_val)
 			start_read2(&new_line, &buffer);
 	}
@@ -55,7 +54,7 @@ char	*save_for_stash(char **buffer2, char **stash)
 	buffer = *buffer2;
 	buffer = ft_strchr(buffer, '\n');
 	if (!(buffer) || ft_strlen(buffer) < 1)
-		return (free(*buffer2),*buffer2 = NULL,*stash = NULL, NULL);
+		return (NULL);
 	while ((buffer)[j] != '\0')
 		j++;
 	*stash = ft_calloc((j + 1), sizeof(char));
@@ -79,9 +78,7 @@ char	*save_for_next(char **buffer)
 
 	i = 0;
 	j = 0;
-	if (!*buffer)
-		return (NULL);
-	if (ft_strlen(*buffer) == 0)
+	if (!*buffer || ft_strlen(*buffer) == 0)
 		return (NULL);
 	while ((*buffer)[i] != '\0' && (*buffer)[i] != '\n')
 		i++;
